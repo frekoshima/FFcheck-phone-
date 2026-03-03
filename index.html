@@ -3,128 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FF Hardware & Network Lab</title>
+    <title>FF OS - Game Analyzer</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        :root { --accent: #ff4b2b; --neon-blue: #00d2ff; }
-        body { background: #050505; color: #fff; font-family: 'Segoe UI', sans-serif; }
-        .glass-card {
+        :root { --main-red: #ff4b2b; --neon-cyan: #00f2ff; --bg-dark: #080808; }
+        body { background-color: var(--bg-dark); color: white; font-family: 'Segoe UI', Roboto, sans-serif; min-height: 100vh; }
+        
+        /* تصميم الـ Glassmorphism */
+        .glass-panel {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 25px;
-            margin-top: 30px;
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 35px;
+            margin-top: 40px;
         }
-        .stat-box { text-align: center; border-right: 1px solid rgba(255, 255, 255, 0.1); }
-        .stat-box:last-child { border-right: none; }
-        .stat-label { font-size: 0.65rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
-        .stat-val { font-size: 1.4rem; font-weight: bold; color: var(--neon-blue); }
-        .game-card {
+
+        .header-title { font-weight: 900; letter-spacing: -1px; font-size: 2.5rem; }
+        .red-text { color: var(--main-red); }
+        
+        /* إحصائيات النظام */
+        .stat-card { text-align: center; border-right: 1px solid rgba(255,255,255,0.1); }
+        .stat-card:last-child { border-right: none; }
+        .stat-label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 2px; }
+        .stat-value { font-size: 1.6rem; font-weight: 800; color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0,242,255,0.2); }
+
+        /* قائمة الألعاب */
+        .game-item {
             background: rgba(255, 255, 255, 0.02);
-            border-radius: 15px;
-            padding: 12px 20px;
-            margin-bottom: 10px;
+            border-radius: 18px;
+            padding: 15px 25px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: 0.3s;
+            transition: 0.3s all ease;
         }
-        .game-card:hover { background: rgba(255, 255, 255, 0.05); }
-        .btn-scan {
+        .game-item:hover { background: rgba(255, 255, 255, 0.06); transform: translateX(-5px); }
+        .ready-badge { color: #00ff88; font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; }
+        .low-badge { color: var(--main-red); font-weight: bold; font-size: 0.8rem; }
+
+        .btn-refresh {
             background: linear-gradient(90deg, #ff4b2b, #ff416c);
-            border: none; border-radius: 12px; padding: 15px;
-            color: white; font-weight: bold; width: 100%; margin-top: 20px;
+            border: none; border-radius: 15px; padding: 18px;
+            font-weight: bold; width: 100%; margin-top: 30px;
+            box-shadow: 0 10px 20px rgba(255, 75, 43, 0.2);
         }
-        .ping-green { color: #00ff88; }
-        .ping-yellow { color: #ffcc00; }
-        .ping-red { color: #ff4b2b; }
     </style>
 </head>
 <body>
 
-<div class="container" style="max-width: 480px;">
+<div class="container" style="max-width: 500px;">
     <div class="text-center pt-5">
-        <h1 class="fw-bold">FF <span style="color:var(--accent)">OS</span></h1>
+        <h1 class="header-title">FF <span class="red-text">OS</span></h1>
         <p class="text-secondary small">Network & Hardware Analyzer</p>
     </div>
 
-    <div class="glass-card shadow-lg">
+    <div class="glass-panel shadow-lg">
         <div class="row">
-            <div class="col-4 stat-box">
-                <div class="stat-label">Memory</div>
-                <div class="stat-val" id="ram-val">--</div>
+            <div class="col-4 stat-card">
+                <div class="stat-label">PING</div>
+                <div id="ping-val" class="stat-value">...</div>
             </div>
-            <div class="col-4 stat-box">
-                <div class="stat-label">Cores</div>
-                <div class="stat-val" id="cpu-val">--</div>
+            <div class="col-4 stat-card">
+                <div class="stat-label">CORES</div>
+                <div id="cpu-val" class="stat-value">--</div>
             </div>
-            <div class="col-4 stat-box">
-                <div class="stat-label">Ping</div>
-                <div id="ping-status" class="stat-val ping-green">...</div>
+            <div class="col-4 stat-card">
+                <div class="stat-label">MEMORY</div>
+                <div id="ram-val" class="stat-value">--</div>
             </div>
         </div>
     </div>
 
-    <h6 class="mt-4 mb-3 px-2 text-secondary">Compatible Games / الألعاب المتوافقة</h6>
-    <div id="game-list"></div>
+    <h6 class="mt-5 mb-3 px-3 text-secondary" style="font-size: 0.8rem; letter-spacing: 1px;">COMPATIBLE GAMES / الألعاب المتوافقة</h6>
+    
+    <div id="game-list">
+        </div>
 
-    <button class="btn-scan shadow" onclick="location.reload()">RE-SCAN SYSTEM</button>
+    <button class="btn-refresh" onclick="location.reload()">إعادة فحص النظام</button>
+    
+    <p class="text-center mt-5 text-secondary small opacity-50">v2.0 • Hosted on qzz.io</p>
 </div>
 
 <script>
-    const games = [
+    // بيانات الألعاب
+    const gameDatabase = [
         { name: "Free Fire", ram: 2, icon: "🔥" },
         { name: "PUBG Mobile", ram: 3, icon: "🔫" },
         { name: "CoD Mobile", ram: 4, icon: "🎖️" },
-        { name: "Among Us", ram: 1, icon: "🔪" }
+        { name: "Genshin Impact", ram: 6, icon: "✨" }
     ];
 
-    async function checkPing() {
+    // وظيفة فحص البينج
+    async function measurePing() {
         const start = Date.now();
         try {
-            // نقوم بطلب صورة صغيرة جداً من سيرفر جوجل لمحاكاة البينج
-            await fetch('https://www.google.com/images/phd/px.gif', { mode: 'no-cors', cache: 'no-cache' });
+            // محاكاة طلب خفيف جداً لقياس سرعة الشبكة
+            await fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-cache' });
             const duration = Date.now() - start;
-            const pingEl = document.getElementById('ping-status');
-            pingEl.innerText = duration + "ms";
+            const el = document.getElementById('ping-val');
+            el.innerText = duration + "ms";
             
-            if (duration > 150) pingEl.className = "stat-val ping-red";
-            else if (duration > 80) pingEl.className = "stat-val ping-yellow";
-            else pingEl.className = "stat-val ping-green";
-        } catch (e) {
-            document.getElementById('ping-status').innerText = "ERR";
+            // تغيير اللون حسب سرعة البينج
+            if (duration < 80) el.style.color = "#00ff88";
+            else if (duration < 150) el.style.color = "#ffcc00";
+            else el.style.color = "#ff4b2b";
+        } catch (err) {
+            document.getElementById('ping-val').innerText = "ERR";
         }
     }
 
-    function init() {
-        // فحص المواصفات
-        const ram = navigator.deviceMemory || 2;
+    // وظيفة بناء الواجهة
+    function setupApp() {
+        // 1. فحص الهاردوير
+        const ram = navigator.deviceMemory || 2; // بعض المتصفحات لا تسمح بقرائتها لأسباب خصوصية فنضع 2 كافتراضي
         const cores = navigator.hardwareConcurrency || "N/A";
+
         document.getElementById('ram-val').innerText = ram + "G";
         document.getElementById('cpu-val').innerText = cores;
 
-        // قائمة الألعاب
+        // 2. بناء قائمة الألعاب
         const list = document.getElementById('game-list');
-        games.forEach(g => {
-            const ok = ram >= g.ram;
+        gameDatabase.forEach(game => {
+            const isOk = ram >= game.ram;
             list.innerHTML += `
-                <div class="game-card">
-                    <div class="d-flex align-items:center">
-                        <span class="me-3">${g.icon}</span>
-                        <span>${g.name}</span>
+                <div class="game-item">
+                    <div class="d-flex align-items-center">
+                        <span class="fs-4 me-3">${game.icon}</span>
+                        <span class="fw-bold">${game.name}</span>
                     </div>
-                    <span class="small" style="color:${ok ? '#00ff88' : '#ff4b2b'}">
-                        ${ok ? 'READY' : 'LOW RAM'}
+                    <span class="${isOk ? 'ready-badge' : 'low-badge'}">
+                        ${isOk ? 'READY' : 'LOW RAM'}
                     </span>
                 </div>
             `;
         });
-        
-        checkPing();
+
+        // 3. تشغيل البينج
+        measurePing();
     }
 
-    window.onload = init;
+    window.onload = setupApp;
 </script>
+
 </body>
 </html>
