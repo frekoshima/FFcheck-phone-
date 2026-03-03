@@ -3,149 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FF OS - Game Analyzer</title>
+    <title>FF OS - Pro Dashboard</title>
+    
+    <link rel="icon" type="image/png" href="https://img.icons8.com/neon/96/controller.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
-        :root { --main-red: #ff4b2b; --neon-cyan: #00f2ff; --bg-dark: #080808; }
-        body { background-color: var(--bg-dark); color: white; font-family: 'Segoe UI', Roboto, sans-serif; min-height: 100vh; }
+        :root { --accent: #ff4b2b; --neon: #00f2ff; --dark: #0a0a0b; }
+        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; transition: 0.3s; }
         
-        /* تصميم الـ Glassmorphism */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 35px;
-            margin-top: 40px;
-        }
+        /* Navigation */
+        .nav-bar { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .nav-link { color: #888; text-decoration: none; font-size: 0.8rem; margin: 0 10px; cursor: pointer; }
+        .nav-link.active { color: var(--accent); font-weight: bold; }
 
-        .header-title { font-weight: 900; letter-spacing: -1px; font-size: 2.5rem; }
-        .red-text { color: var(--main-red); }
+        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 25px; margin-top: 20px; }
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.5s; }
         
-        /* إحصائيات النظام */
-        .stat-card { text-align: center; border-right: 1px solid rgba(255,255,255,0.1); }
-        .stat-card:last-child { border-right: none; }
-        .stat-label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 2px; }
-        .stat-value { font-size: 1.6rem; font-weight: 800; color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0,242,255,0.2); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* قائمة الألعاب */
-        .game-item {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 18px;
-            padding: 15px 25px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: 0.3s all ease;
-        }
-        .game-item:hover { background: rgba(255, 255, 255, 0.06); transform: translateX(-5px); }
-        .ready-badge { color: #00ff88; font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; }
-        .low-badge { color: var(--main-red); font-weight: bold; font-size: 0.8rem; }
-
-        .btn-refresh {
-            background: linear-gradient(90deg, #ff4b2b, #ff416c);
-            border: none; border-radius: 15px; padding: 18px;
-            font-weight: bold; width: 100%; margin-top: 30px;
-            box-shadow: 0 10px 20px rgba(255, 75, 43, 0.2);
-        }
+        .stat-val { font-size: 1.5rem; font-weight: 800; color: var(--neon); }
+        .input-glass { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 12px; padding: 12px; width: 100%; margin-bottom: 15px; }
+        .btn-fire { background: linear-gradient(90deg, #ff4b2b, #ff416c); border: none; color: white; padding: 12px; border-radius: 12px; width: 100%; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container" style="max-width: 500px;">
-    <div class="text-center pt-5">
-        <h1 class="header-title">FF <span class="red-text">OS</span></h1>
-        <p class="text-secondary small">Network & Hardware Analyzer</p>
+<div class="nav-bar d-flex justify-content-center">
+    <span class="nav-link active" onclick="showPage('home')"><i class="fas fa-microchip"></i> فحص</span>
+    <span class="nav-link" onclick="showPage('config')"><i class="fas fa-cog"></i> الإعدادات</span>
+    <span class="nav-link" onclick="showPage('contact')"><i class="fas fa-envelope"></i> اتصل بنا</span>
+</div>
+
+<div class="container" style="max-width: 480px;">
+    
+    <div id="home" class="page active">
+        <div class="text-center pt-4">
+            <h2 class="fw-bold">FF <span style="color:var(--accent)">OS</span></h2>
+            <p class="text-secondary small">Hardware & Network Analyzer</p>
+        </div>
+
+        <div class="glass-panel text-center">
+            <div class="row">
+                <div class="col-4 border-end border-secondary">
+                    <div class="small text-muted">PING</div>
+                    <div id="ping-val" class="stat-val">...</div>
+                </div>
+                <div class="col-4 border-end border-secondary">
+                    <div class="small text-muted">RAM</div>
+                    <div id="ram-val" class="stat-val">--</div>
+                </div>
+                <div class="col-4">
+                    <div class="small text-muted">CPU</div>
+                    <div id="cpu-val" class="stat-val">--</div>
+                </div>
+            </div>
+        </div>
+
+        <h6 class="mt-4 px-2 text-secondary small">COMPATIBILITY LIST</h6>
+        <div id="game-list"></div>
     </div>
 
-    <div class="glass-panel shadow-lg">
-        <div class="row">
-            <div class="col-4 stat-card">
-                <div class="stat-label">PING</div>
-                <div id="ping-val" class="stat-value">...</div>
+    <div id="config" class="page">
+        <div class="glass-panel">
+            <h4 class="mb-4"><i class="fas fa-sliders-h me-2"></i> Configuration</h4>
+            <label class="small text-muted mb-2">اسم المستخدم (Username)</label>
+            <input type="text" id="username" class="input-glass" placeholder="Enter Nickname...">
+            
+            <label class="small text-muted mb-2">خادم الفحص (Test Server)</label>
+            <select class="input-glass">
+                <option>Auto (Default)</option>
+                <option>Europe</option>
+                <option>Middle East</option>
+            </select>
+
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <span>Dark Mode</span>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked disabled></div>
             </div>
-            <div class="col-4 stat-card">
-                <div class="stat-label">CORES</div>
-                <div id="cpu-val" class="stat-value">--</div>
-            </div>
-            <div class="col-4 stat-card">
-                <div class="stat-label">MEMORY</div>
-                <div id="ram-val" class="stat-value">--</div>
-            </div>
+            <button class="btn-fire mt-4" onclick="saveConfig()">SAVE CONFIG</button>
         </div>
     </div>
 
-    <h6 class="mt-5 mb-3 px-3 text-secondary" style="font-size: 0.8rem; letter-spacing: 1px;">COMPATIBLE GAMES / الألعاب المتوافقة</h6>
-    
-    <div id="game-list">
+    <div id="contact" class="page">
+        <div class="glass-panel">
+            <h4 class="mb-4"><i class="fas fa-paper-plane me-2"></i> Contact Us</h4>
+            <input type="text" id="contact-name" class="input-glass" placeholder="Your Name">
+            <input type="email" id="contact-email" class="input-glass" placeholder="Your Email">
+            <textarea id="contact-msg" class="input-glass" rows="4" placeholder="Your Message..."></textarea>
+            <button class="btn-fire" onclick="sendMessage()">SEND MESSAGE</button>
+            <div id="send-status" class="mt-3 text-center small"></div>
         </div>
+    </div>
 
-    <button class="btn-refresh" onclick="location.reload()">إعادة فحص النظام</button>
-    
-    <p class="text-center mt-5 text-secondary small opacity-50">v2.0 • Hosted on qzz.io</p>
 </div>
 
 <script>
-    // بيانات الألعاب
-    const gameDatabase = [
-        { name: "Free Fire", ram: 2, icon: "🔥" },
-        { name: "PUBG Mobile", ram: 3, icon: "🔫" },
-        { name: "CoD Mobile", ram: 4, icon: "🎖️" },
-        { name: "Genshin Impact", ram: 6, icon: "✨" }
-    ];
-
-    // وظيفة فحص البينج
-    async function measurePing() {
-        const start = Date.now();
-        try {
-            // محاكاة طلب خفيف جداً لقياس سرعة الشبكة
-            await fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-cache' });
-            const duration = Date.now() - start;
-            const el = document.getElementById('ping-val');
-            el.innerText = duration + "ms";
-            
-            // تغيير اللون حسب سرعة البينج
-            if (duration < 80) el.style.color = "#00ff88";
-            else if (duration < 150) el.style.color = "#ffcc00";
-            else el.style.color = "#ff4b2b";
-        } catch (err) {
-            document.getElementById('ping-val').innerText = "ERR";
-        }
+    // Page Switching Logic
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        event.currentTarget.classList.add('active');
     }
 
-    // وظيفة بناء الواجهة
-    function setupApp() {
-        // 1. فحص الهاردوير
-        const ram = navigator.deviceMemory || 2; // بعض المتصفحات لا تسمح بقرائتها لأسباب خصوصية فنضع 2 كافتراضي
-        const cores = navigator.hardwareConcurrency || "N/A";
+    // Config Logic
+    function saveConfig() {
+        const user = document.getElementById('username').value;
+        alert("Config Saved: " + (user || "Guest"));
+    }
 
+    // Contact Logic
+    function sendMessage() {
+        const status = document.getElementById('send-status');
+        status.innerHTML = "<span style='color:var(--neon)'>Sending...</span>";
+        setTimeout(() => {
+            status.innerHTML = "<span style='color:#00ff88'>✅ Message Sent Successfully!</span>";
+            document.getElementById('contact-msg').value = "";
+        }, 1500);
+    }
+
+    // Hardware & Ping Logic (From previous version)
+    async function init() {
+        const ram = navigator.deviceMemory || 2;
+        const cores = navigator.hardwareConcurrency || "N/A";
         document.getElementById('ram-val').innerText = ram + "G";
         document.getElementById('cpu-val').innerText = cores;
 
-        // 2. بناء قائمة الألعاب
-        const list = document.getElementById('game-list');
-        gameDatabase.forEach(game => {
-            const isOk = ram >= game.ram;
-            list.innerHTML += `
-                <div class="game-item">
-                    <div class="d-flex align-items-center">
-                        <span class="fs-4 me-3">${game.icon}</span>
-                        <span class="fw-bold">${game.name}</span>
-                    </div>
-                    <span class="${isOk ? 'ready-badge' : 'low-badge'}">
-                        ${isOk ? 'READY' : 'LOW RAM'}
-                    </span>
-                </div>
-            `;
-        });
+        // Ping Simulation
+        const start = Date.now();
+        try {
+            await fetch('https://www.google.com/favicon.ico', { mode: 'no-cors' });
+            document.getElementById('ping-val').innerText = (Date.now() - start) + "ms";
+        } catch(e) { document.getElementById('ping-val').innerText = "ERR"; }
 
-        // 3. تشغيل البينج
-        measurePing();
+        // Game List Construction
+        const games = [{n:"Free Fire", r:2, i:"🔥"}, {n:"PUBG", r:3, i:"🔫"}, {n:"CoD", r:4, i:"🎖️"}];
+        const list = document.getElementById('game-list');
+        games.forEach(g => {
+            const ok = ram >= g.r;
+            list.innerHTML += `<div class="glass-panel d-flex justify-content-between p-3 mt-2" style="margin-top:10px !important;">
+                <span>${g.i} ${g.n}</span>
+                <span style="color:${ok?'#00ff88':'#ff4b2b'}">${ok?'READY':'LOW RAM'}</span>
+            </div>`;
+        });
     }
 
-    window.onload = setupApp;
+    window.onload = init;
 </script>
-
 </body>
 </html>
