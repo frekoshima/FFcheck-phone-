@@ -1,11 +1,13 @@
-<!-- mylead-verification: af710dda54f7a2253b2dd954f298ef45 -->
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-<meta name="mylead-verification" content="af710dda54f7a2253b2dd954f298ef45">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FF OS | Advanced Device Lab</title>
+
+<!-- MyLead Verification -->
+<meta name="mylead-verification" content="af710dda54f7a2253b2dd954f298ef45">
+<!-- mylead-verification: af710dda54f7a2253b2dd954f298ef45 -->
 
 <link rel="icon" type="image/png" href="https://img.icons8.com/neon/96/controller.png">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,168 +15,174 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 :root {
---primary:#ff4b2b;
---cyan:#00f2ff;
---bg-main:#050507;
---glass:rgba(20,20,25,0.7);
+    --primary:#ff4b2b;
+    --cyan:#00f2ff;
+    --bg-main:#050507;
+    --glass:rgba(20,20,25,0.7);
 }
 
 body{
-background:var(--bg-main);
-background-image:radial-gradient(circle at 50% 0%,rgba(255,75,43,0.15),transparent 50%);
-color:#fff;
-font-family:'Rajdhani',sans-serif;
-min-height:100vh;
+    background:var(--bg-main);
+    background-image:radial-gradient(circle at 50% 0%,rgba(255,75,43,0.15),transparent 50%);
+    color:#fff;
+    font-family:'Rajdhani',sans-serif;
+    min-height:100vh;
 }
 
 .app-container{
-max-width:900px;
-margin:0 auto;
-padding:20px;
+    max-width:900px;
+    margin:0 auto;
+    padding:20px;
 }
 
 .glass-panel{
-background:var(--glass);
-backdrop-filter:blur(20px);
-border:1px solid rgba(255,255,255,0.05);
-border-radius:20px;
-padding:30px;
-margin-bottom:25px;
-box-shadow:0 10px 30px rgba(0,0,0,0.5);
+    background:var(--glass);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius:20px;
+    padding:30px;
+    margin-bottom:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
 }
 
 .top-nav{
-display:flex;
-justify-content:center;
-gap:15px;
-margin-bottom:30px;
-flex-wrap:wrap;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-bottom:30px;
+    flex-wrap:wrap;
 }
 
 .nav-btn{
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.1);
-color:#aaa;
-padding:10px 25px;
-border-radius:30px;
-cursor:pointer;
-font-weight:600;
-font-size:1.1rem;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    color:#aaa;
+    padding:10px 25px;
+    border-radius:30px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:1.1rem;
+    transition:0.3s;
 }
 
 .nav-btn.active{
-background:var(--primary);
-color:#fff;
-border-color:var(--primary);
+    background:var(--primary);
+    color:#fff;
+    border-color:var(--primary);
+    box-shadow:0 0 15px rgba(255,75,43,0.4);
 }
 
 .stat-label{
-font-size:0.9rem;
-color:#888;
-text-transform:uppercase;
-letter-spacing:2px;
-margin-bottom:5px;
+    font-size:0.9rem;
+    color:#888;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    margin-bottom:5px;
 }
 
 .stat-value{
-font-size:2.2rem;
-font-weight:700;
-color:var(--cyan);
+    font-size:2.2rem;
+    font-weight:700;
+    color:var(--cyan);
 }
 
 .cyber-input{
-background:rgba(0,0,0,0.5);
-border:1px solid rgba(255,255,255,0.1);
-color:white;
-border-radius:10px;
-padding:15px;
-width:100%;
-margin-bottom:20px;
+    background:rgba(0,0,0,0.5);
+    border:1px solid rgba(255,255,255,0.1);
+    color:white;
+    border-radius:10px;
+    padding:15px;
+    width:100%;
+    margin-bottom:20px;
 }
 
 .btn-submit{
-background:linear-gradient(45deg,var(--primary),#ff416c);
-border:none;
-color:white;
-padding:15px;
-border-radius:10px;
-width:100%;
-font-size:1.2rem;
-font-weight:bold;
-cursor:pointer;
+    background:linear-gradient(45deg,var(--primary),#ff416c);
+    border:none;
+    color:white;
+    padding:15px;
+    border-radius:10px;
+    width:100%;
+    font-size:1.2rem;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
 }
 
 .page-content{display:none;}
 .page-content.active{display:block;}
 
 .timer{
-margin-bottom:10px;
-font-weight:bold;
-color:#ffcc00;
-font-size:1.2rem;
+    margin-bottom:10px;
+    font-weight:bold;
+    color:#ffcc00;
+    font-size:1.2rem;
 }
 
 #scan-progress{
-display:none;
-text-align:center;
-margin-top:25px;
+    display:none;
+    text-align:center;
+    margin-top:25px;
 }
 
 #cta{
-display:none;
-text-align:center;
-margin-top:25px;
+    display:none;
+    text-align:center;
+    margin-top:25px;
 }
 
 #cta button{
-padding:15px 25px;
-font-size:1.2rem;
-border:none;
-border-radius:10px;
-background:linear-gradient(45deg,var(--primary),#ff416c);
-color:#fff;
+    padding:15px 25px;
+    font-size:1.2rem;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(45deg,var(--primary),#ff416c);
+    color:#fff;
 }
 
+@media(max-width:768px){
+    .glass-panel { padding:20px; }
+    .nav-btn { padding:8px 18px; font-size:1rem; }
+}
 </style>
 </head>
 
 <body>
-af710dda54f7a2253b2dd954f298ef45
+
 <div class="app-container pt-4">
 
+<!-- Header -->
 <div class="text-center mb-4">
-<h1 class="fw-bold" style="font-size:3rem;">FF <span style="color:var(--primary)">OS</span></h1>
-<p class="text-secondary" style="letter-spacing:3px;">PRO GAMING ANALYTICS</p>
+    <h1 class="fw-bold" style="font-size:3rem;">FF <span style="color:var(--primary)">OS</span></h1>
+    <p class="text-secondary" style="letter-spacing:3px;">PRO GAMING ANALYTICS</p>
 </div>
 
+<!-- Navigation -->
 <div class="top-nav">
-<button class="nav-btn active" onclick="switchPage('scanner',this)">Scanner</button>
-<button class="nav-btn" onclick="switchPage('games',this)">Games</button>
-<button class="nav-btn" onclick="switchPage('contact',this)">Contact</button>
+    <button class="nav-btn active" onclick="switchPage('scanner',this)">Scanner</button>
+    <button class="nav-btn" onclick="switchPage('games',this)">Games</button>
+    <button class="nav-btn" onclick="switchPage('contact',this)">Contact</button>
 </div>
 
+<!-- Scanner -->
 <div id="scanner" class="page-content active">
-
 <div class="glass-panel">
+    <div class="stat-label">RAM Memory</div>
+    <div class="stat-value" id="sys-ram">--</div>
 
-<div class="stat-label">RAM Memory</div>
-<div class="stat-value" id="sys-ram">--</div>
+    <div class="stat-label">CPU Cores</div>
+    <div class="stat-value" id="sys-cpu">--</div>
 
-<div class="stat-label">CPU Cores</div>
-<div class="stat-value" id="sys-cpu">--</div>
+    <div class="stat-label">Estimated Free Fire FPS</div>
+    <div class="stat-value" id="sys-fps">--</div>
 
-<div class="stat-label">Estimated Free Fire FPS</div>
-<div class="stat-value" id="sys-fps">--</div>
-
-<div class="stat-label">Ping</div>
-<div class="stat-value" id="sys-ping">...</div>
-
+    <div class="stat-label">Ping</div>
+    <div class="stat-value" id="sys-ping">...</div>
+</div>
 </div>
 
-</div>
-
+<!-- Games -->
 <div id="games" class="page-content">
 <div class="glass-panel">
 <h5>Game Compatibility</h5>
@@ -182,184 +190,125 @@ af710dda54f7a2253b2dd954f298ef45
 </div>
 </div>
 
+<!-- Contact -->
 <div id="contact" class="page-content">
-
 <div class="glass-panel">
-
 <form action="https://formspree.io/f/mkovlyep" method="POST">
-
 <input type="email" name="email" class="cyber-input" placeholder="Email" required>
 <input type="text" name="subject" class="cyber-input" placeholder="Subject" required>
 <textarea name="message" class="cyber-input" rows="5" placeholder="Message"></textarea>
-
 <button type="submit" class="btn-submit">Send Message</button>
-
 </form>
-
 </div>
-
 </div>
 
 <!-- Fake Scan Progress -->
-
 <div id="scan-progress">
-
-<div style="font-size:1.2rem;margin-bottom:10px;">
-Scanning Gaming Servers...
-</div>
-
+<div style="font-size:1.2rem;margin-bottom:10px;">Scanning Gaming Servers...</div>
 <div style="width:100%;background:#222;height:12px;border-radius:10px;">
 <div id="progress-bar" style="width:0%;height:12px;background:#00ff88;border-radius:10px;"></div>
 </div>
-
 <div id="progress-text" style="margin-top:10px;color:#ccc;"></div>
-
 </div>
 
-<!-- CTA -->
-
+<!-- CTA + Scarcity -->
 <div id="cta">
-
 <div style="color:#ffcc00;font-weight:bold;margin-bottom:10px;">
 Free rewards available today: <span id="rewards">17</span>
 </div>
-
-<div class="timer">
-Offer expires in <span id="countdown">02:00</span>
-</div>
-
+<div class="timer">Offer expires in <span id="countdown">02:00</span></div>
 <a id="offer-link" href="https://mobtalk.xyz/cpa/13725/1809" target="_blank">
 <button>Unlock Pro Gaming Rewards</button>
 </a>
-
 </div>
 
 <!-- Social Proof -->
-
 <div class="glass-panel mt-4">
-
 <h5>Player Reviews</h5>
-
 <p>⭐️⭐️⭐️⭐️⭐️ Alex: This actually improved my FPS 🔥</p>
 <p>⭐️⭐️⭐️⭐️⭐️ Rayan: My ping dropped to 28ms!</p>
 <p>⭐️⭐️⭐️⭐️⭐️ Luis: Works perfectly on my phone.</p>
-
 </div>
 
 </div>
 
+<!-- Scripts -->
 <script>
-
 function switchPage(pageId,btn){
-document.querySelectorAll('.page-content').forEach(p=>p.classList.remove('active'))
-document.getElementById(pageId).classList.add('active')
+    document.querySelectorAll('.page-content').forEach(p=>p.classList.remove('active'))
+    document.getElementById(pageId).classList.add('active')
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'))
+    btn.classList.add('active')
 }
 
 async function runMasterScan(){
+    const ram=navigator.deviceMemory||2
+    const cores=navigator.hardwareConcurrency||4
+    document.getElementById('sys-ram').innerText=ram+" GB"
+    document.getElementById('sys-cpu').innerText=cores
+    let fps=ram>=6&&cores>=8?90:(ram>=4?60:30)
+    document.getElementById('sys-fps').innerText=fps+" FPS"
 
-const ram=navigator.deviceMemory||2
-const cores=navigator.hardwareConcurrency||4
+    const start=Date.now()
+    try{
+        await fetch('https://www.google.com/favicon.ico',{mode:'no-cors'})
+        const ping=Date.now()-start
+        document.getElementById('sys-ping').innerText=ping+"ms"
+    }catch(e){
+        document.getElementById('sys-ping').innerText="ERR"
+    }
 
-document.getElementById('sys-ram').innerText=ram+" GB"
-document.getElementById('sys-cpu').innerText=cores
-
-let fps=ram>=6&&cores>=8?90:(ram>=4?60:30)
-
-document.getElementById('sys-fps').innerText=fps+" FPS"
-
-const start=Date.now()
-
-try{
-await fetch('https://www.google.com/favicon.ico',{mode:'no-cors'})
-const ping=Date.now()-start
-document.getElementById('sys-ping').innerText=ping+"ms"
-}catch(e){
-document.getElementById('sys-ping').innerText="ERR"
-}
-
-fakeProgress()
-
+    fakeProgress()
 }
 
 function fakeProgress(){
-
-document.getElementById("scan-progress").style.display="block"
-
-const steps=[
-"Connecting to gaming server...",
-"Analyzing device performance...",
-"Checking Free Fire compatibility...",
-"Unlocking gaming rewards..."
-]
-
-let progress=0
-let step=0
-
-const bar=document.getElementById("progress-bar")
-const text=document.getElementById("progress-text")
-
-const interval=setInterval(()=>{
-
-progress+=25
-bar.style.width=progress+"%"
-text.innerText=steps[step]
-step++
-
-if(progress>=100){
-
-clearInterval(interval)
-
-document.getElementById("cta").style.display="block"
-
-startTimer()
-
-updateOfferLink()
-
-}
-
-},1500)
-
+    document.getElementById("scan-progress").style.display="block"
+    const steps=[
+        "Connecting to gaming server...",
+        "Analyzing device performance...",
+        "Checking Free Fire compatibility...",
+        "Unlocking gaming rewards..."
+    ]
+    let progress=0, step=0
+    const bar=document.getElementById("progress-bar")
+    const text=document.getElementById("progress-text")
+    const interval=setInterval(()=>{
+        progress+=25
+        bar.style.width=progress+"%"
+        text.innerText=steps[step]
+        step++
+        if(progress>=100){
+            clearInterval(interval)
+            document.getElementById("cta").style.display="block"
+            startTimer()
+            updateOfferLink()
+        }
+    },1500)
 }
 
 function updateOfferLink(){
-
-fetch('https://ipapi.co/json/')
-
-.then(res=>res.json())
-
-.then(data=>{
-
-const geo=data.country_code
-
-document.getElementById("offer-link").href=
-"https://mobtalk.xyz/cpa/13725/1809?geo="+geo
-
-})
-
+    fetch('https://ipapi.co/json/')
+    .then(res=>res.json())
+    .then(data=>{
+        const geo=data.country_code
+        document.getElementById("offer-link").href=
+        "https://mobtalk.xyz/cpa/13725/1809?geo="+geo
+    })
+    .catch(()=>{})
 }
 
 function startTimer(duration=120){
-
-let timer=duration
-
-const countdown=document.getElementById('countdown')
-
-const interval=setInterval(()=>{
-
-let minutes=parseInt(timer/60)
-let seconds=parseInt(timer%60)
-
-countdown.textContent=
-minutes.toString().padStart(2,'0')+":"+seconds.toString().padStart(2,'0')
-
-if(--timer<0) clearInterval(interval)
-
-},1000)
-
+    let timer=duration
+    const countdown=document.getElementById('countdown')
+    const interval=setInterval(()=>{
+        let minutes=parseInt(timer/60)
+        let seconds=parseInt(timer%60)
+        countdown.textContent=minutes.toString().padStart(2,'0')+":"+seconds.toString().padStart(2,'0')
+        if(--timer<0) clearInterval(interval)
+    },1000)
 }
 
 window.onload=runMasterScan
-
 </script>
 
 </body>
