@@ -187,6 +187,20 @@ body{
 <div class="glass-panel">
 <h5>Game Compatibility</h5>
 <div id="games-container"></div>
+
+<hr style="margin:25px 0">
+
+<h5>Aim Trainer</h5>
+<p style="color:#aaa">Click the targets as fast as possible to train your aim.</p>
+
+<div id="aim-game" style="position:relative;width:100%;height:300px;background:#111;border-radius:10px;overflow:hidden;">
+</div>
+
+<div style="margin-top:10px;">
+Score: <span id="aim-score">0</span>
+</div>
+
+<button class="btn-submit mt-2" onclick="startAimGame()">Start Aim Training</button>
 </div>
 </div>
 
@@ -309,6 +323,94 @@ function startTimer(duration=120){
 }
 
 window.onload=runMasterScan
+    /* --------------------------
+GAME LIST
+--------------------------*/
+
+const games=[
+{ name:"Free Fire", fps:90, status:"Perfect" },
+{ name:"PUBG Mobile", fps:60, status:"Playable" },
+{ name:"Call Of Duty Mobile", fps:60, status:"Good" },
+{ name:"Apex Legends Mobile", fps:40, status:"Medium" },
+{ name:"Fortnite Mobile", fps:30, status:"Heavy" }
+]
+
+function loadGames(){
+
+const container=document.getElementById("games-container")
+container.innerHTML=""
+
+games.forEach(g=>{
+
+const div=document.createElement("div")
+div.style.padding="10px"
+div.style.borderBottom="1px solid rgba(255,255,255,0.1)"
+
+div.innerHTML=`
+<b>${g.name}</b><br>
+FPS Support: ${g.fps} FPS<br>
+Status: <span style="color:#00f2ff">${g.status}</span>
+`
+
+container.appendChild(div)
+
+})
+
+}
+
+loadGames()
+
+/* --------------------------
+AIM TRAINER GAME
+--------------------------*/
+
+let aimScore=0
+let gameInterval
+
+function startAimGame(){
+
+aimScore=0
+document.getElementById("aim-score").innerText=aimScore
+
+const area=document.getElementById("aim-game")
+area.innerHTML=""
+
+gameInterval=setInterval(()=>{
+
+const target=document.createElement("div")
+
+target.style.position="absolute"
+target.style.width="40px"
+target.style.height="40px"
+target.style.borderRadius="50%"
+target.style.background="#ff4b2b"
+target.style.cursor="pointer"
+
+target.style.left=Math.random()*90+"%"
+target.style.top=Math.random()*80+"%"
+
+target.onclick=()=>{
+aimScore++
+document.getElementById("aim-score").innerText=aimScore
+target.remove()
+}
+
+area.appendChild(target)
+
+setTimeout(()=>{
+target.remove()
+},1200)
+
+},900)
+
+/* stop after 20 seconds */
+
+setTimeout(()=>{
+clearInterval(gameInterval)
+alert("Training finished! Score: "+aimScore)
+},20000)
+
+}
 </script>
 
 </body>
